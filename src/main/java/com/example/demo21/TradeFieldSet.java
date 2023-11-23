@@ -1,6 +1,7 @@
 package com.example.demo21;
 
 import com.example.demo21.domain.Trade;
+import org.springframework.batch.core.step.skip.SkipException;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
@@ -17,6 +18,10 @@ public class TradeFieldSet implements FieldSetMapper<Trade> {
         try {
             export = fieldSet.readDouble(4);
         } catch (NumberFormatException e) {
+            String s = fieldSet.readString(4);
+            System.out.println(s);
+            if (!s.equals("NA"))
+                throw new RuntimeException("asdf");
             export = 0.0D;
         }
         trade.setExport(export);
